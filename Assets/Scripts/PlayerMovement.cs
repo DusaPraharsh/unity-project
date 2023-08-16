@@ -31,6 +31,32 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private TrailRenderer tr;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
+    [SerializeField] private Rigidbody2D platformRBody;
+
+    private bool isOnPlatform;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Platform")
+        {
+            platformRBody = col.gameObject.GetComponent<Rigidbody2D>();
+            isOnPlatform = true;
+        }
+    }
+ 
+    private void OnCollisionExit2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Platform")
+        {
+            isOnPlatform = false;
+            platformRBody = null;
+        }
+    }
 
     // Update is called once per frame
     void Update()
